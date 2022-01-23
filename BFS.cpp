@@ -11,18 +11,19 @@ queue q;
 void bfs(int n)
 {
 	q.enqueue(n);
+	visited[n] = n;
 	while(!q.checkempty())
 	{
+		n = q.qfront();
+		std::cout<<q.dequeue()<<std::endl;
 		for(int mem : list[n])
 		{
 			if(!visited[mem])
 			{
+				visited[n] = n;
 				q.enqueue(mem);
 			}
 		}
-		visited[n] = n;
-		std::cout<<q.dequeue()<<std::endl;
-		if(!q.checkempty()) n = q.qfront();
 	}
 }
 

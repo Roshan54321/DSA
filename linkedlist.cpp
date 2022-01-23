@@ -1,19 +1,19 @@
 #include <iostream>
 
+template <class T>
 class node
 {
-    int data;
+    T data;
     node* next;
     public:
-    node()
+    node(T data)
     {
-        std::cout<<"Enter the data"<<std::endl;
-        std::cin>>data;
-        next = NULL;
+        this->data = data;
     }
     friend class list;
 };
 
+template <class T>
 class list
 {
     node* head;
@@ -21,7 +21,7 @@ class list
     list():head(NULL){}
     list(node* n):head(n){}
 
-    void listtraverse(int n)
+    void addNode(T data)
     {
         node* current = head;
         int count = 0;
@@ -34,6 +34,12 @@ class list
             std::cout<<current->data;
             }
         }
+    }
+
+    node* createNode(T data)
+    {
+        node* newnode = new node(data);
+        return newnode;
     }
 
     void displayall()

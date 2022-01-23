@@ -4,12 +4,12 @@
 // #include <map>
 
 
-// std::vector<char> list[50];
-// std::map<char, char> visited;
-// char p,q,start;
+// std::vector<int> list[50];
+// std::map<int, int> visited;
+// int p,q,start;
 // int num;
 
-// void dfs(char n)
+// void dfs(int n)
 // { 
 // 	// if(visited[n])
 // 	// { 
@@ -19,7 +19,7 @@
 	
 // visited[n] = n; 
 // 	std::cout<<n<<std::endl;  //pre order 
- //    for(char x :list[n])
+ //    for(int x :list[n])
 	// { 
 	// 	if(!visited[x]) dfs(x); 
 	// }
@@ -50,31 +50,32 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <stack>
 #include <map>
 
 
-std::vector<char> list[50];
-std::map<char, char> visited;
-std::vector<char> stack;
-char p,q,start;
+std::vector<int> list[50];
+std::map<int, int> visited;
+std::stack<int> stack;
+int p,q,start;
 int num;
 
-void dfs(char n)
+void dfs(int n)
 { 
-	stack.push_back(n);
+	stack.push(n);
 	while(!stack.empty())
 	{
-		n = stack.back();
-		stack.pop_back();
+		n = stack.top();
+		stack.pop();
 		if(!visited[n]) 
 		{
 			std::cout<<n<<std::endl;  //pre order 
 	    	visited[n] = n; 		
 		}
 
-		for(char i : list[n])
+		for(int i : list[n])
 		{
-			if(!visited[i]) stack.push_back(i);
+			if(!visited[i]) stack.push(i);
 		}
 	}
 	//std::cout<<n<<std::endl;  //post order
@@ -85,6 +86,7 @@ int main()
 	std::cout<<"Enter the number of adjacency list members:"<<std::endl;
 	std::cin>>num;
 	std::cout<<"Enter the adjacency list members of directed graph:"<<std::endl;
+
 	for(int i=0; i<num; i++)
 	{ 
 		std::cin>>p>>q; 
