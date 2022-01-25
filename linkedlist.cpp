@@ -1,41 +1,83 @@
 #include <iostream>
 
-template <class T>
+class list;
+
 class node
 {
-    T data;
+    int data;
     node* next;
     public:
+    node(){}
+    template <class T>
     node(T data)
     {
         this->data = data;
+        this->next = NULL;
     }
     friend class list;
 };
 
-template <class T>
 class list
 {
     node* head;
     public:
     list():head(NULL){}
-    list(node* n):head(n){}
 
-    void addNode(T data)
+    template <class T>
+    void insert_last(T data)
     {
-        node* current = head;
-        int count = 0;
-        while(true)
+        node* newnode = createNode(data);
+        if(head == NULL)
         {
-            current = current->next;
-            count++;
-            if(count==n)
+            head = newnode;
+        }
+        else
+        {
+            node* ptr = new node();
+            ptr = head;
+            while(ptr->next != NULL)
             {
-            std::cout<<current->data;
+                ptr = ptr->next;
+            }
+            ptr->next = newnode;
+        }
+    }
+
+    template <class T>
+    void insert_before(T pos, T data)
+    {
+        node* newnode = createNode(data);
+        node* ptr = new node;
+        node* prev;
+        ptr = prev = head;
+        if(ptr == NULL)
+        {
+            std::cout <<"List is empty!"<< std::endl;
+            return;
+        }
+        else
+        {
+            if(head->data == pos)
+            {
+                newnode->next = head;
+                head = newnode;
+                return;
+            }
+            while(ptr != NULL)
+            {
+                if(ptr->data == pos)
+                {
+                    prev->next = newnode;
+                    newnode->next = ptr;
+                    return;
+                }
+                prev = ptr;
+                ptr = ptr->next;
             }
         }
     }
 
+    template <class T>
     node* createNode(T data)
     {
         node* newnode = new node(data);
@@ -44,19 +86,23 @@ class list
 
     void displayall()
     {
-        node* current = head;
-        while(current!=NULL)
+        node* ptr = new node;
+        ptr = head;
+        while(ptr!=NULL)
         {
-            std::cout<<current->data<<std::endl;
-            current = current->next;
+            std::cout<<ptr->data<<std::endl;
+            ptr = ptr->next;
         }
     }
 };
 
 int main()
 { 
-    // node* n = new node();
-    // list li(n);
-    // li.displayall();
+    list li;
+    li.insert_last(12);
+    li.insert_last(16);
+    li.insert_before(16, 3);
+
+    li.displayall();
     return 0;
 }
