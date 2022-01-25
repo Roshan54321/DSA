@@ -25,7 +25,7 @@ public:
 		return newnode;
 	}
 
-	void insertatbeginning(int data)
+	void insert_beginning(int data)
 	{
 		node* newnode = getnewnode(data);
 		if(head == NULL)
@@ -38,21 +38,21 @@ public:
 		head = newnode;
 	}
 
-	void deleteatbeginning()
+	void delete_beginning()
 	{
 		if(head == NULL)
 		{
 			std::cout<<"List is empty"<<std::endl;
 			return;
 		}
-		node* aux = new node;
-		aux = head;
+		node* temp = new node;
+		temp = head;
 		head = head->next;
 		head->prev = NULL;
-		free(aux);
+		delete temp;
 	}
 
-	void insertatend(int data)
+	void insert_end(int data)
 	{
 		node* newnode = getnewnode(data);
 		if(head == NULL)
@@ -60,57 +60,110 @@ public:
 			head = newnode;
 			return;
 		}
-		node* temp = new node;
-		temp = head;
-		while(temp->next!=NULL)
+		node* ptr = new node;
+		ptr = head;
+		while(ptr->next!=NULL)
 		{
-			temp = temp->next;
+			ptr = ptr->next;
 		}
-		temp->next = newnode;
-		newnode->prev = temp;
+		ptr->next = newnode;
+		newnode->prev = ptr;
 	}
 
-	void insertrandom(int pos, int data)
+	void insert_before(int pos, int data)
 	{
 		node* newnode = getnewnode(data);
 		if(head == NULL)
 		{
-			head = newnode;
+			std::cout <<"List is empty"<< std::endl;
 			return;
 		}
-		node* temp = new node;
-		temp = head;
-		for(int i=0; i<pos-1; i++)
+		else
 		{
-			temp = temp->next;
-			if(temp == NULL)
+			if(head->data == pos)
 			{
-				std::cout<<"The list is short"<<std::endl;
-				return;
+				newnode->next = head;
+				head->prev = newnode;
+				head = newnode;
+			}
+			else
+			{
+				node* ptr = new node;
+				ptr = head;
+				while(ptr != NULL)
+				{
+					if(ptr->data == pos)
+					{
+						ptr->prev->next = newnode;
+						newnode->prev = ptr->prev;
+						newnode->next = ptr;
+						ptr->prev = newnode;
+						return;
+					}
+					ptr = ptr->next;
+				}
 			}
 		}
-		node* aux = new node;
-		temp = newnode;
-		temp->next = aux;
-		aux->prev = temp;
-		newnode->prev = temp;
 	}
 
-	void deleteatend()
+	void delete_before(int pos)
+	{
+		node* ptr = new node;
+		ptr = head;
+		if(head == NULL)
+		{
+			std::cout <<"List is empty"<< std::endl;
+			return;
+		}
+		else
+		{
+			if(head->data == pos)
+			{
+				std::cout <<"Node doesn't exist"<< std::endl;
+			}
+			else
+			{
+				while(ptr != NULL)
+				{
+					if(ptr->data == pos)
+					{
+						ptr = ptr->prev;
+						ptr->prev->next = ptr->next;
+						delete ptr;
+						return;
+					}
+					ptr = ptr->next;
+				}
+			}
+		}
+	}
+
+	void delete_end()
 	{
 		if(head == NULL)
 		{
 			std::cout<<"List is empty"<<std::endl;
 			return;
 		}
-		node* temp = new node;
-		temp = head;
-		while(temp->next!=NULL)
+		else
 		{
-			temp = temp->next;
+			node* ptr = new node;
+			ptr = head;
+			while(ptr->next!=NULL)
+			{
+				ptr = ptr->next;
+			}
+			if(ptr == head)
+			{
+				delete ptr;
+				head = NULL;
+			}
+			else
+			{
+				ptr->prev->next = NULL;
+				delete ptr;
+			}
 		}
-		(temp->prev)->next = NULL;
-		free(temp);
 	}
 
 	void displayall()
@@ -121,12 +174,12 @@ public:
 			return;
 		}
 
-		node* temp = new node;
-		temp = head;
-		while(temp!=NULL)
+		node* ptr = new node;
+		ptr = head;
+		while(ptr!=NULL)
 		{
-			std::cout<<temp->data<<std::endl;
-			temp = temp->next;
+			std::cout<<ptr->data<<std::endl;
+			ptr = ptr->next;
 		}
 	}
 
@@ -135,8 +188,14 @@ public:
 int main()
 {
 	list l;
-	l.insertatbeginning(2);
-	l.deleteatend();
+	l.insert_end(67);
+	l.insert_end(60);
+	l.insert_end(10);
+	l.insert_end(4);
+	l.insert_end(2);
+	l.insert_before(10, 56);
+	l.delete_before(10);
+	// l.delete_end();
 	l.displayall();
 	return 0;
 }
