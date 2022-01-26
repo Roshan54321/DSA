@@ -110,16 +110,17 @@ public:
 	{
 		node* ptr = new node;
 		ptr = head;
-		if(head == NULL)
+		if(ptr == NULL)
 		{
 			std::cout <<"List is empty"<< std::endl;
 			return;
 		}
 		else
 		{
-			if(head->data == pos)
+			if(ptr->data == pos)
 			{
 				std::cout <<"Node doesn't exist"<< std::endl;
+				exit(0);
 			}
 			else
 			{
